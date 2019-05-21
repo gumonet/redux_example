@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.1/redux.min.js"></script>
+</head>
+<body>
+    <div>
+        <h4>REdux </h4>
+    </div>
+    <div>
+        <p>El número es: <b id="number">0</b> </p>
+        <button onclick="aumentar();">Aumentar</button>
+        <button onclick="disminuir();">Disminuir</button>
+    </div>
+
+    <script type="text/javascript">
+        console.log("Funcionando....");
+
+        // I. State
+        let state = {
+            numero: 0
+        }
+
+
+        // II. STORE (reducer, state)
+        var store = Redux.createStore(reducer, state);
+
+        // III. Reducer
+        function reducer(state, action){ //Una función que modifica el state
+            //console.log('Se ejecuta el reducer');
+            //console.log(state);
+            //console.log(action);
+            let nuevostate = Object.assign({}, state);
+            switch (action.type) {
+                case 'AUM':
+                    nuevostate.numero = state.numero + 1;
+                    console.log(nuevostate);
+                    return nuevostate;
+                break;
+                case 'DESC':
+                    nuevostate.numero = state.numero - 1;
+                    console.log(nuevostate);
+                    return nuevostate;
+                break;
+            
+                default:
+                    return state;
+                break;
+            }
+        }
+
+        // IV Action
+        //Es un objeto de java script pero requiere tener un :key con la denominación :type
+        let actionAumentar = {
+            type: 'AUM'
+        }
+
+        let actionDisminuir = {
+            type: 'DESC'
+        }
+
+        //V DISPATCH Ejecuta todo
+        //store.dispatch(actionAumentar)
+        
+        var aumentar = () => {
+             //V DISPATCH Ejecuta todo
+            store.dispatch(actionAumentar)
+        }
+
+        var disminuir = () => {
+             //V DISPATCH Ejecuta todo
+            store.dispatch(actionDisminuir)
+        }
+
+        // VI Get state Obtener valores de store
+        /*var span_number = document.getElementById('number');
+        span_number.innerHTML = store.getState().numero;*/  
+
+        //VII Subscribe  Subscribir nuestro store ( Cada que se mofica el state se ejecuta una función)
+        
+        var update_number = () => {
+            var span_number = document.getElementById('number');
+            span_number.innerHTML = store.getState().numero;
+        }
+        store.subscribe(update_number);
+    </script>
+</body>
+</html>
